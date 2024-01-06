@@ -25,7 +25,7 @@ interface CyclesContextType {
   interruptCurrentCycle: () => void
 }
 
-export const cyclesContext = createContext({} as CyclesContextType)
+export const CyclesContext = createContext({} as CyclesContextType)
 
 interface CyclesContextProviderProps {
   children: ReactNode
@@ -85,7 +85,7 @@ export function CyclesContextProvider({
   }
 
   return (
-    <cyclesContext.Provider
+    <CyclesContext.Provider
       value={{
         cycles,
         activeCycle,
@@ -98,6 +98,6 @@ export function CyclesContextProvider({
       }}
     >
       {children}
-    </cyclesContext.Provider>
+    </CyclesContext.Provider>
   )
 }

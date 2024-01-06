@@ -5,7 +5,7 @@ import { Countdown } from './components/Countdown'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { cyclesContext } from '../../contexts/CyclesContext'
+import { CyclesContext } from '../../contexts/CyclesContext'
 import {
   HomeContainer,
   StartCountdownButton,
@@ -24,7 +24,7 @@ type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
 
 export function Home() {
   const { createNewCycle, interruptCurrentCycle, activeCycle } =
-    useContext(cyclesContext)
+    useContext(CyclesContext)
 
   const newCycleForm = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
