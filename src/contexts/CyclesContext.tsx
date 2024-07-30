@@ -1,3 +1,4 @@
+import { version } from '../../package.json'
 import {
   ReactNode,
   createContext,
@@ -46,11 +47,25 @@ export function CyclesContextProvider({
     },
     (initialState) => {
       const storedStateAsJSON = localStorage.getItem(
-        '@timer-app:cycles-state-1.0.0',
+        `@timer-app:cycles-state-${version}`,
       )
 
       if (storedStateAsJSON) {
-        return JSON.parse(storedStateAsJSON)
+        const parsedState = JSON.parse(storedStateAsJSON)
+
+        parsedState.cycles.forEach((cycle: Cycle) => {
+          cycle.startDate = new Date(cycle.startDate)
+
+          if (cycle.interruptedDate) {
+            cycle.interruptedDate = new Date(cycle.interruptedDate)
+          }
+
+          if (cycle.finishedDate) {
+            cycle.finishedDate = new Date(cycle.finishedDate)
+          }
+        })
+
+        return parsedState
       }
 
       return initialState
@@ -70,7 +85,7 @@ export function CyclesContextProvider({
   useEffect(() => {
     const stateJSON = JSON.stringify(cyclesState)
 
-    localStorage.setItem('@timer-app:cycles-state-1.0.0', stateJSON)
+    localStorage.setItem(`@timer-app:cycles-state-${version}`, stateJSON)
   }, [cyclesState])
 
   function setSecondsPassed(seconds: number) {
